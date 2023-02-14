@@ -16,6 +16,30 @@ namespace net.minecraft {
 }
 
 namespace top.npucraft.npuvproj {
+	namespace proxy {
+		abstract CommonProxy {
+
+		}
+		note bottom of CommonProxy {
+			CommonProxy 并非 forge 模组必不可少的部分
+			设计 CommonProxy 的目的仅仅在于更方便地划分模组在客户端和服务端的不同行为
+			在 npuvproj 的设计中， CommonProxy 应当包含客户端和服务端共有的行为
+			ServerProxy 独立负责处理服务端特有的行为逻辑
+			ClientProxy 独立负责处理客户端特有的行为逻辑
+			CommonProxy 将被置为抽象类以强制子类实现端的附加行为逻辑，即使其为空
+		}
+
+		class ServerProxy {
+
+		}
+		ServerProxy --|> CommonProxy
+
+		class ClientProxy {
+
+		}
+		ClientProxy --|> CommonProxy
+	}
+
 	namespace creativetab {
 		class CreativeTabEx {
 			+ {static} DefaultLabelTextColor: int
