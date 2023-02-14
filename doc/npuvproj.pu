@@ -1,0 +1,64 @@
+@startuml npuvproj
+
+hide empty methods
+hide empty members
+
+set namespaceSeparator .
+
+namespace net.minecraft {
+	namespace creativetab {
+		class CreativeTabs
+	}
+	namespace item {
+		class Item
+		class ItemStack
+	}
+}
+
+namespace top.npucraft.npuvproj {
+	namespace creativetab {
+		class CreativeTabEx {
+			+ {static} DefaultLabelTextColor: int
+			+ {static} DefaultGuiCreativeLeftWidth: int
+			+ {static} DefaultSearchFieldWidth: int
+			- hasSearchBar_: boolean
+			- hasLabel_: boolean
+			- labelTextColor_: int
+			- iconItem_: Item
+			+ CreativeTabsEx(String label)
+			+ CreativeTabsEx withIconItem(Item itemIn)
+			+ CreativeTabsEx withLabel(boolean enabled, String hexRGB)
+			+ CreativeTabsEx withSearchBar(boolean enabled)
+			+ int getLabelColor()
+			+ boolean hasSearchBar()
+			+ int getSearchbarWidth()
+			+ boolean drawInForegroundOfTab()
+			+ ItemStack getTabIconItem()
+		}
+		CreativeTabEx -up-|> net.minecraft.creativetab.CreativeTabs
+		CreativeTabEx .up.> net.minecraft.item.Item
+		CreativeTabEx .up.> net.minecraft.item.ItemStack
+		note bottom of CreativeTabEx {
+			CreativeTabs 的配置增强版本
+			推荐 npuvproj 自定义物品的栏目都由 CreativeTabEx 定义
+		}
+	}
+
+	namespace utils {
+		namespace onthefly {
+			class JavaStringCompiler {
+				- compiler: JavaCompiler
+				- stdManager: StandardJavaFileManager
+				+ JavaStringCompiler()
+				+ Map<String, byte[]> compile(String fileName, String source)
+				+ Class<?> loadClass(String name, Map<String, byte[]> classBytes)
+			}
+			note bottom of JavaStringCompiler {
+				JavaStringCompiler 是一个运行时类编译器
+				在 npuvproj 主要用于高复现性类的自动生成
+			}
+		}
+	}
+}
+
+@enduml
