@@ -1,13 +1,15 @@
 package top.npucraft.npuvproj.proxy;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraftforge.fml.common.event.*;
 import top.npucraft.npuvproj.item.ItemBuilder;
 import top.npucraft.npuvproj.item.ItemBus;
+import top.npucraft.npuvproj.item.items.ItemFooBar;
+import top.npucraft.npuvproj.utils.Config;
 import top.npucraft.npuvproj.block.BlockBuilder;
 import top.npucraft.npuvproj.block.BlockBus;
+import top.npucraft.npuvproj.block.blocks.BlockFooBar;
+import top.npucraft.npuvproj.creativetab.CreativeTabsEx;
 
 import org.apache.logging.log4j.Logger;
 
@@ -17,15 +19,20 @@ public abstract class CommonProxy implements IProxy {
 	public void onPreInitialize(FMLPreInitializationEvent e) {
 		logger = e.getModLog();
 
-		ItemBus.registerItem((new ItemBuilder(new Item()))
-				.withRegistryName("ash")
-				.withCreativeTab("sundries")
-				.build());
+		if (Config.IncludeFooBarSamples) {
+			ItemBus.registerItem((new ItemBuilder(new ItemFooBar()))
+					.withRegistryName("item_foobar")
+					.withCreativeTab("foobar")
+					.build());
 
-		BlockBus.registerBlock((new BlockBuilder(new Block(Material.ROCK)))
-				.withRegistryName("chair")
-				.withCreativeTab("chairs")
-				.build());
+			BlockBus.registerBlock((new BlockBuilder(new BlockFooBar()))
+					.withRegistryName("block_foobar")
+					.withCreativeTab("foobar")
+					.build());
+
+			CreativeTabsEx tab = (CreativeTabsEx) CreativeTabsEx.findFirstOf("foobar");
+			tab.withLabel(true, "#dccd79").withIconItem(Items.EGG);
+		}
 	}
 
 	public void onInitialize(FMLInitializationEvent e) {

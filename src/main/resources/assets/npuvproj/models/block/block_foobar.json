@@ -5,9 +5,9 @@
         32
     ],
     "textures": {
-        "0": "npuvproj:blocks/chair",
-        "1": "npuvproj:blocks/wstick",
-        "particle": "npuvproj:blocks/chair"
+        "0": "npuvproj:blocks/block_foobar_0",
+        "1": "npuvproj:blocks/block_foobar_1",
+        "particle": "npuvproj:blocks/block_foobar_0"
     },
     "elements": [
         {

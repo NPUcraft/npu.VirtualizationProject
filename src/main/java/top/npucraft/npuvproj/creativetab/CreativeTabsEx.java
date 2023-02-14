@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import top.npucraft.npuvproj.utils.Config;
 
 public class CreativeTabsEx extends CreativeTabs {
 	public static int DefaultLabelTextColor = 0x404040;
@@ -25,6 +26,16 @@ public class CreativeTabsEx extends CreativeTabs {
 		for (int i = 0; i < CREATIVE_TAB_ARRAY.length; ++i) {
 			if (CREATIVE_TAB_ARRAY[i].getTabLabel() == label) {
 				return CREATIVE_TAB_ARRAY[i];
+			}
+		}
+		return null;
+	}
+
+	public static CreativeTabsEx findFirstOfLocal(String label) {
+		String actualLabel = Config.ModId + ":" + label;
+		for (int i = 0; i < CREATIVE_TAB_ARRAY.length; ++i) {
+			if (CREATIVE_TAB_ARRAY[i].getTabLabel() == actualLabel) {
+				return (CreativeTabsEx)CREATIVE_TAB_ARRAY[i];
 			}
 		}
 		return null;

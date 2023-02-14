@@ -16,6 +16,29 @@ namespace net.minecraft {
 }
 
 namespace top.npucraft.npuvproj {
+	namespace utils {
+		class Config {
+			+ {static} ModId: String
+			+ {static} ModName: String
+			+ {static} ModVersion: String
+			+ {static} IncludeFooBarSamples: boolean
+		}
+
+		namespace onthefly {
+			class JavaStringCompiler {
+				- compiler: JavaCompiler
+				- stdManager: StandardJavaFileManager
+				+ JavaStringCompiler()
+				+ Map<String, byte[]> compile(String fileName, String source)
+				+ Class<?> loadClass(String name, Map<String, byte[]> classBytes)
+			}
+			note bottom of JavaStringCompiler {
+				JavaStringCompiler 是一个运行时类编译器
+				在 npuvproj 主要用于高复现性类的自动生成
+			}
+		}
+	}
+
 	namespace proxy {
 		interface IProxy {
 			+ void onFingerprintViolation(FMLFingerprintViolationEvent e)
@@ -54,9 +77,6 @@ namespace top.npucraft.npuvproj {
 	}
 
 	class ModEntry {
-		+ {static} MODID: String
-		+ {static} NAME: String
-		+ {static} VERSION: String
 		+ instance: ModEntry
 		+ {static} proxy: CommonProxy
 		+ void onFingerprintViolation(FMLFingerprintViolationEvent e)
@@ -82,6 +102,7 @@ namespace top.npucraft.npuvproj {
 			- iconItem_: Item
 			+ CreativeTabsEx(String label)
 			+ {static} CreativeTabs findFirstOf(String label)
+			+ {static} CreativeTabsEx findFirstOfLocal(String label)
 			+ CreativeTabsEx withIconItem(Item itemIn)
 			+ CreativeTabsEx withLabel(boolean enabled, String hexRGB)
 			+ CreativeTabsEx withSearchBar(boolean enabled)
@@ -112,7 +133,9 @@ namespace top.npucraft.npuvproj {
 		class ItemBus {
 			+ {static} void registerItem(Item itemIn)
 			+ {static} void registerItemBlock(Block blockIn)
+			+ {static} Item getRegisteredItem(String name)
 		}
+		ItemBus ..> top.npucraft.npuvproj.proxy.CommonProxy
 	}
 
 	namespace block {
@@ -126,24 +149,10 @@ namespace top.npucraft.npuvproj {
 
 		class BlockBus {
 			+ {static} void registerBlock(Block blockIn)
+			+ {static} Block getRegisteredBlock(String name)
 		}
 		BlockBus ..> top.npucraft.npuvproj.item.ItemBus
-	}
-
-	namespace utils {
-		namespace onthefly {
-			class JavaStringCompiler {
-				- compiler: JavaCompiler
-				- stdManager: StandardJavaFileManager
-				+ JavaStringCompiler()
-				+ Map<String, byte[]> compile(String fileName, String source)
-				+ Class<?> loadClass(String name, Map<String, byte[]> classBytes)
-			}
-			note bottom of JavaStringCompiler {
-				JavaStringCompiler 是一个运行时类编译器
-				在 npuvproj 主要用于高复现性类的自动生成
-			}
-		}
+		BlockBus ..> top.npucraft.npuvproj.proxy.CommonProxy
 	}
 }
 
