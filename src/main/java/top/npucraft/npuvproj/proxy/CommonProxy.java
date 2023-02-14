@@ -30,8 +30,9 @@ public abstract class CommonProxy implements IProxy {
 					.withCreativeTab("foobar")
 					.build());
 
-			CreativeTabsEx tab = (CreativeTabsEx) CreativeTabsEx.findFirstOf("foobar");
-			tab.withLabel(true, "#dccd79").withIconItem(Items.EGG);
+			CreativeTabsEx.findFirstOfLocal("foobar")
+					.withLabel(true, "#ff0000")
+					.withIconItem(Items.EGG);
 		}
 	}
 

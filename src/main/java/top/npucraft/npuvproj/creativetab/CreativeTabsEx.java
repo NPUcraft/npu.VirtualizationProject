@@ -24,7 +24,7 @@ public class CreativeTabsEx extends CreativeTabs {
 
 	public static CreativeTabs findFirstOf(String label) {
 		for (int i = 0; i < CREATIVE_TAB_ARRAY.length; ++i) {
-			if (CREATIVE_TAB_ARRAY[i].getTabLabel() == label) {
+			if (CREATIVE_TAB_ARRAY[i].getTabLabel().equals(label)) {
 				return CREATIVE_TAB_ARRAY[i];
 			}
 		}
@@ -32,9 +32,9 @@ public class CreativeTabsEx extends CreativeTabs {
 	}
 
 	public static CreativeTabsEx findFirstOfLocal(String label) {
-		String actualLabel = Config.ModId + ":" + label;
+		String actualLabel = Config.ModId + "." + label;
 		for (int i = 0; i < CREATIVE_TAB_ARRAY.length; ++i) {
-			if (CREATIVE_TAB_ARRAY[i].getTabLabel() == actualLabel) {
+			if (CREATIVE_TAB_ARRAY[i].getTabLabel().equals(actualLabel)) {
 				return (CreativeTabsEx)CREATIVE_TAB_ARRAY[i];
 			}
 		}
