@@ -17,10 +17,22 @@ namespace net.minecraft {
 
 namespace top.npucraft.npuvproj {
 	namespace proxy {
+		interface IProxy {
+			+ void onFingerprintViolation(FMLFingerprintViolationEvent e)
+			+ void onPreInitialize(FMLPreInitializationEvent e)
+			+ void onInitialize(FMLInitializationEvent e)
+			+ void onPostInitialize(FMLPostInitializationEvent e)
+			+ void onServerAboutToStart(FMLServerAboutToStartEvent e)
+			+ void onServerStarting(FMLServerStartingEvent e)
+			+ void onServerStarted(FMLServerStartedEvent e)
+			+ void onServerStopping(FMLServerStoppingEvent e)
+			+ void onServerStopped(FMLServerStoppedEvent e)
+		}
+
 		abstract CommonProxy {
 
 		}
-		note bottom of CommonProxy {
+		note right of CommonProxy {
 			CommonProxy 并非 forge 模组必不可少的部分
 			设计 CommonProxy 的目的仅仅在于更方便地划分模组在客户端和服务端的不同行为
 			在 npuvproj 的设计中， CommonProxy 应当包含客户端和服务端共有的行为
@@ -28,17 +40,36 @@ namespace top.npucraft.npuvproj {
 			ClientProxy 独立负责处理客户端特有的行为逻辑
 			CommonProxy 将被置为抽象类以强制子类实现端的附加行为逻辑，即使其为空
 		}
+		CommonProxy .down.|> IProxy
 
 		class ServerProxy {
 
 		}
-		ServerProxy --|> CommonProxy
+		ServerProxy -right-|> CommonProxy
 
 		class ClientProxy {
 
 		}
-		ClientProxy --|> CommonProxy
+		ClientProxy -right-|> CommonProxy
 	}
+
+	class ModEntry {
+		+ {static} MODID: String
+		+ {static} NAME: String
+		+ {static} VERSION: String
+		+ instance: ModEntry
+		+ {static} proxy: CommonProxy
+		+ void onFingerprintViolation(FMLFingerprintViolationEvent e)
+		+ void onPreInitialize(FMLPreInitializationEvent e)
+		+ void onInitialize(FMLInitializationEvent e)
+		+ void onPostInitialize(FMLPostInitializationEvent e)
+		+ void onServerAboutToStart(FMLServerAboutToStartEvent e)
+		+ void onServerStarting(FMLServerStartingEvent e)
+		+ void onServerStarted(FMLServerStartedEvent e)
+		+ void onServerStopping(FMLServerStoppingEvent e)
+		+ void onServerStopped(FMLServerStoppedEvent e)
+	}
+	ModEntry o--> top.npucraft.npuvproj.proxy.CommonProxy
 
 	namespace creativetab {
 		class CreativeTabEx {
@@ -50,6 +81,7 @@ namespace top.npucraft.npuvproj {
 			- labelTextColor_: int
 			- iconItem_: Item
 			+ CreativeTabsEx(String label)
+			+ {static} CreativeTabs findFirstOf(String label)
 			+ CreativeTabsEx withIconItem(Item itemIn)
 			+ CreativeTabsEx withLabel(boolean enabled, String hexRGB)
 			+ CreativeTabsEx withSearchBar(boolean enabled)
@@ -66,6 +98,36 @@ namespace top.npucraft.npuvproj {
 			CreativeTabs 的配置增强版本
 			推荐 npuvproj 自定义物品的栏目都由 CreativeTabEx 定义
 		}
+	}
+
+	namespace item {
+		class ItemBuilder {
+			- item_: Item
+			+ ItemBuilder(Item item)
+			+ ItemBuilder withRegistryName(String name)
+			+ ItemBuilder withCreativeTab(String name)
+			+ Item build()
+		}
+
+		class ItemBus {
+			+ {static} void registerItem(Item itemIn)
+			+ {static} void registerItemBlock(Block blockIn)
+		}
+	}
+
+	namespace block {
+		class BlockBuilder {
+			- block_: Block
+			+ BlockBuilder(Block block)
+			+ BlockBuilder withRegistryName(String name)
+			+ BlockBuilder withCreativeTab(String name)
+			+ Block build()
+		}
+
+		class BlockBus {
+			+ {static} void registerBlock(Block blockIn)
+		}
+		BlockBus ..> top.npucraft.npuvproj.item.ItemBus
 	}
 
 	namespace utils {
