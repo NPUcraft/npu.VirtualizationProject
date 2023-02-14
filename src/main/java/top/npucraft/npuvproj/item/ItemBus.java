@@ -11,6 +11,6 @@ public class ItemBus {
 	}
 
 	public static void registerItemBlock(Block blockIn) {
-		registerItem(new ItemBlock(blockIn));
+		registerItem((new ItemBlock(blockIn)).setRegistryName(blockIn.getRegistryName()));
 	}
 }
