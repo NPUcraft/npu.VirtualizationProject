@@ -1,20 +1,20 @@
 {
     "variants": {
         "facing=north": {
-            "model": "npuvproj:chair"
+            "model": "npuvproj:block_foobar"
         },
         "facing=east": {
-            "model": "npuvproj:chair",
+            "model": "npuvproj:block_foobar",
             "y": 90,
             "uvlock": false
         },
         "facing=south": {
-            "model": "npuvproj:chair",
+            "model": "npuvproj:block_foobar",
             "y": 180,
             "uvlock": false
         },
         "facing=west": {
-            "model": "npuvproj:chair",
+            "model": "npuvproj:block_foobar",
             "y": 270,
             "uvlock": false
         }
