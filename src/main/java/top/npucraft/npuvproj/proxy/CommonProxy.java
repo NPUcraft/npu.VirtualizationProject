@@ -1,20 +1,22 @@
 package top.npucraft.npuvproj.proxy;
 
-import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.event.*;
+import top.npucraft.npuvproj.item.ItemBuilder;
+import top.npucraft.npuvproj.item.ItemBus;
+import top.npucraft.npuvproj.block.BlockBuilder;
+import top.npucraft.npuvproj.block.BlockBus;
+
+import org.apache.logging.log4j.Logger;
 
 public abstract class CommonProxy {
+	public static Logger logger;
+
 	public abstract void onFingerprintViolation(FMLFingerprintViolationEvent e);
 
 	public void onPreInitialize(FMLPreInitializationEvent e) {
-		// TODO: CommonProxy.onPreInitialize
+		logger = e.getModLog();
+		ItemBus.registerItem((new ItemBuilder(new Item())).withRegistryName("ash").withCreativeTab("sundries").build());
 	}
 
 	public void onInitialize(FMLInitializationEvent e) {

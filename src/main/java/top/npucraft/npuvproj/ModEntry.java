@@ -3,26 +3,15 @@ package top.npucraft.npuvproj;
 import top.npucraft.npuvproj.proxy.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
-import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ModEntry.MODID, name = ModEntry.NAME, version = ModEntry.VERSION)
 public class ModEntry {
     public static final String MODID = "npuvproj";
     public static final String NAME = "NPU Virtualization Project";
-    public static final String VERSION = "3.0.6_beta";
-
-    private static Logger logger;
+    public static final String VERSION = "3.0.8_beta";
 
     @Instance(ModEntry.MODID)
     public ModEntry instance;
