@@ -1,0 +1,361 @@
+@startuml NPUCraft
+
+hide empty methods
+hide empty members
+
+namespace npucraft {
+	namespace interface {
+		interface IHasModel {
+			+ {abstract} void registryItemRender()
+		}
+	}
+
+	namespace util {
+		class InitHelper {
+			+ {static} void itemInit(Item item, String name, CreativeTabs MY_TAB)
+			+ {static} void itemModelRegistry(Item item)
+		}
+
+		interface ModelRegisterCallback {
+			+ registerModel()
+		}
+
+		class ModelUtils {
+			- {static} stateMappers: Map<IRegistryDelegate<Block>, IStateMapper>
+			- {static} defaultStateMapper: IStateMapper
+			+ {static} void registerToState(Block b, int itemMeta, IBlockState state)
+			+ {static} void registerToStateSingleVariant<T>(Block b, IProperty<T> variant)
+		}
+
+		class Reference {
+			+ {static} NAME: String
+			+ {static} MODID: String
+			+ {static} VERSION: String
+			+ {static} CLIENT_PROXY_CLASS: String
+			+ {static} SERVER_PROXY_CLAS: String
+		}
+
+		class Util {
+			+ {static} logger: Logger
+		}
+	}
+
+	namespace template {
+		class BlockTemplate {
+			+ {static} FULL_SHAPE: AxisAlignedBB
+			+ {static} NULL_SHPAE: AxisAlignedBB
+			+ {static} HALF_SHPAE_BOTTOM: AxisAlignedBB
+			+ {static} HALF_SHPAE_UP: AxisAlignedBB
+			+ BlockTemplate()
+			+ void registryItemRender()
+			+ boolean isOpaqueCube(IBlockState state)
+			+ boolean isFullCube(IBlockState state)
+			+ AxisAlignedBB getCollisionBoundingBox(IBlockState p_getCollisionBoundingBox_1_, IBlockAccess p_getCollisionBoundingBox_2_, BlockPos p_getCollisionBoundingBox_3_)
+		}
+		BlockTemplate --|> minecraft.Block
+		BlockTemplate ..|> npucraft.interface.IHasModel
+
+		class TentTemplate {
+			+ {static} SHAPE: AxisAlignedBB
+			+ {static} ANGEL: PropertyInteger
+			+ TentTemplate()
+			# BlockStateContainer createBlockState()
+			+ void registryItemRender()
+			+ boolean isOpaqueCube(IBlockState state)
+			+ boolean isFullCube(IBlockState state)
+			+ IBlockState getStateFromMeta(int meta)
+			+ int getMetaFromState(IBlockState state)
+			+ AxisAlignedBB getCollisionBoundingBox(IBlockState p_getCollisionBoundingBox_1_, IBlockAccess p_getCollisionBoundingBox_2_, BlockPos p_getCollisionBoundingBox_3_)
+			+ void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+			+ boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+		}
+		TentTemplate --|> minecraft.Block
+		TentTemplate ..|> npucraft.interface.IHasModel
+
+		class BlockEightSideFacingTemplate {
+			+ {static} FACING: PropertyDirection
+			+ {static} HALF: PropertyEnum<BlockEightSideFacingTemplate.EnumHalf>
+			+ {static} FULL_SHAPE: AxisAlignedBB
+			+ {static} NULL_SHPAE: AxisAlignedBB
+			+ {static} HALF_SHPAE_BOTTOM: AxisAlignedBB
+			+ {static} HALF_SHPAE_UP: AxisAlignedBB
+			+ BlockEightSideFacingTemplate()
+			# BlockStateContainer createBlockState()
+			+ void registryItemRender()
+			+ boolean isOpaqueCube(IBlockState state)
+			+ boolean isFullCube(IBlockState state)
+			+ IBlockState getStateFromMeta(int p_getStateFromMeta_1_)
+			+ int getMetaFromState(IBlockState p_getMetaFromState_1_)
+			+ AxisAlignedBB getCollisionBoundingBox(IBlockState iBlockState, IBlockAccess iBlockAccess, BlockPos blockPos)
+			+ IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+		}
+		class npucraft.template.BlockEightSideFacingTemplate.EnumHalf <extends minecraft.IStringSerializable> {
+			- name: String
+			- EnumHalf(String p_i45683_3_)
+			+ String toString()
+			+ String getName()
+		}
+		BlockEightSideFacingTemplate --|> minecraft.Block
+		BlockEightSideFacingTemplate ..|> npucraft.interface.IHasModel
+		npucraft.template.BlockEightSideFacingTemplate.EnumHalf -[hidden]> BlockEightSideFacingTemplate
+
+		class BlockFourSideFacingTemplate {
+			+ {static} FACING: PropertyDirection
+			+ {static} FULL_SHAPE: AxisAlignedBB
+			+ {static} NULL_SHPAE: AxisAlignedBB
+			+ {static} HALF_SHPAE_BOTTOM: AxisAlignedBB
+			+ {static} HALF_SHPAE_UP: AxisAlignedBB
+			+ BlockFourSideFacingTemplate()
+			# BlockStateContainer createBlockState()
+			+ void registryItemRender()
+			+ boolean isOpaqueCube(IBlockState state)
+			+ boolean isFullCube(IBlockState state)
+			+ IBlockState getStateFromMeta(int meta)
+			+ int getMetaFromState(IBlockState state)
+			+ AxisAlignedBB getCollisionBoundingBox(IBlockState p_getCollisionBoundingBox_1_, IBlockAccess p_getCollisionBoundingBox_2_, BlockPos p_getCollisionBoundingBox_3_)
+			+ void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+		}
+		BlockFourSideFacingTemplate --|> minecraft.Block
+		BlockFourSideFacingTemplate ..|> npucraft.interface.IHasModel
+
+		class BlockSlabTemplate {
+			+ {static} SEAMLESS: PropertyBool
+			+ BlockSlabTemplate()
+			+ String getUnlocalizedName(int i)
+			+ boolean isDouble()
+			+ IProperty<?> getVariantProperty()
+			+ Comparable<?> getTypeForItem(ItemStack itemStack)
+		}
+		BlockSlabTemplate --|> minecraft.BlockSlab
+	}
+
+	namespace proxy {
+		class CommonProxy {
+			+ void registryModel(Item item, int meta, String id)
+			+ void preInit(FMLPreInitializationEvent event)
+			+ void init(FMLInitializationEvent event)
+			+ void postInit(FMLPostInitializationEvent event)
+			+ void onStart(FMLServerStartingEvent event)
+		}
+
+		class ClientProxy {
+			+ void registryModel(Item item, int meta, String id)
+			+ void preInit(FMLPreInitializationEvent event)
+		}
+		ClientProxy --|> npucraft.proxy.CommonProxy
+	}
+
+	namespace handler {
+		class RegistryHandler {
+			+ {static} BLOCKS: List<Block>
+			+ {static} ITEMS: List<Item>
+			- {static} itemRegistry: IForgeRegistry<Item>
+			- {static} blockRegistry: IForgeRegistry<Block>
+			+ {static} onItemRegistry(RegistryEvent.Register<Item> event)
+			+ {static} onBlockRegistry(RegistryEvent.Register<Block> event)
+			+ {static} onModelRegistery(ModelRegistryEvent event)
+			- {static} modelRegisteryHelper<T>(List<T> list)
+		}
+	}
+
+	namespace crafting {
+		class CraftingLoader {
+			+ CraftingLoader()
+			- {static} void registerRecipe()
+			- {static} void registerSmelting()
+			- {static} void registerFuel()
+		}
+	}
+
+	namespace inventory {
+		class ContainerDemo {
+			+ ContainerDemo()
+			+ boolean canInteractWith(EntityPlayer playerIn)
+		}
+		ContainerDemo --|> minecraft.Container
+
+		class GuiElementLoader {
+			+ {static} GUI_DEMO: int
+			+ GuiElementLoader()
+			+ Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+			+ Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+		}
+		GuiElementLoader ..|> minecraftforge.IGuiHandler
+	}
+
+	namespace items {
+		class ItemInstanceSample {
+			+ ItemInstanceSample()
+			+ ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+		}
+		note bottom of ItemInstanceSample {
+			物品创建的样例，直接继承原版 Minecraft 物品类，包括但不限于 Item 、 ItemPickaxe 、 ItemFood
+			一般而言，物品的创建仅为了提供简单地提供物品，并无特殊用途
+			而为了实现特殊效果，也常通过重写 Item 的右键点击动作方法 onItemRightClick 实现
+		}
+		ItemInstanceSample --|> minecraft.Item
+
+		class ItemLoader {
+			+ {static} ...: Item
+			+ ItemLoader()
+			+ {static} void registerRenders()
+			- {static} void register(Item item)
+			- {static} void registerRender(Item item)
+		}
+		note bottom of ItemLoader {
+			ItemLoader 作为一个物品加载器，仅简单做了注册物品的功能
+			需要默认加载的物品一般需要写入 ItemLoader 的初始化方法中，以便模组简单地通过 ItemLoader 注册物品
+		}
+
+		class ItemRenderLoader {
+			+ ItemRenderLoader()
+		}
+	}
+
+	namespace Entity {
+		class EntitySample {
+			+ EntitySample(World worldIn)
+			+ void onDeath(DamageSource cause)
+			# void applyEntityAttributes()
+			+ IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata)
+			# void despawnEntity()
+		}
+		class npucraft.Entity.EntitySample.Render <extends minecraft.RenderLiving<EntitySample>> {
+			- {static} TEX: ResourceLocation
+			+ Render(RenderManager p_i47187_1_)
+			# ResourceLocation getEntityTexture(Plane entity)
+		}
+		class ModelEntitySample {
+			- bone: ModelRenderer
+			+ ModelEntitySample()
+			+ void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+			+ void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z)
+		}
+		EntitySample --|> minecraft.EntityLiving
+		npucraft.Entity.EntitySample.Render -[hidden]> EntitySample
+		ModelEntitySample --|> minecraft.ModelBase
+		ModelEntitySample -[hidden]> EntitySample
+		note bottom of EntitySample {
+			EntitySample 是自定义实体的范例，一般情况下继承于 EntityLiving
+			自定义实体的引入通常用于渲染复杂易复用的校园实体，例如公交、飞机等等
+			在现有的代码中，模型通过 BlockBench 导出并配合贴图在对应模型类中硬编码实现渲染
+		}
+
+		class EntityRenderFactory <E extends Entity> {
+			- renderClass: Class<? extends Render<E>>
+			+ EntityRenderFactory(Class<? extends Render<E>> renderClass)
+			+ Render<E> createRenderFor(RenderManager manager)
+		}
+		EntityRenderFactory ..|> minecraftforge.IRenderFactory
+
+		class EntityRenderLoader {
+			+ EntityRenderLoader()
+		}
+		note bottom of EntityRenderLoader {
+			所有自定义实体的渲染处理器默认应将在该类的初始化方法中注册
+			注册仅用于客户端
+		}
+	}
+
+	namespace client {
+		class GuiContainerDemo {
+			+ GuiContainerDemo(ContainerDemo inventorySlotsIn)
+			# void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+			# void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+		}
+		GuiContainerDemo --|> minecraft.GuiContainer
+
+		class CNCModel {
+			+ ResourceLocation getAnimationFileLocation(Object entity)
+			+ ResourceLocation getModelLocation(Object animatable)
+			+ ResourceLocation getTextureLocation(Object entity)
+		}
+		CNCModel --|> geckolib3.AnimatedGeoModel
+
+		class CNCRenderer {
+			+ CNCRenderer()
+		}
+		CNCRenderer --|> geckolib3.GeoBlockRenderer
+		note bottom of CNCRenderer {
+			CNCRenderer 与 CNCModel 共同沟通了 geckolib 以渲染模型动画
+			前者将渲染任务转发给 geckolib 的渲染器，后者用于重定向 geckolib 资源文件
+			目前，该渲染器未正式启用
+		}
+	}
+
+	namespace init {
+		class BlockRegister {
+			+ {static} CNC_BLOCK: CNCBlock
+		}
+		note bottom of BlockRegister {
+			原用于 CNCModel 的注册器，现已连同 CNCModel 一并被弃用
+		}
+
+		class ItemRegister {
+			+ {static} CNC_ITEM: Item
+		}
+		note bottom of ItemRegister {
+			原用于 CNCModel 对应物品的注册器，现已连同 CNCModel 一并被弃用
+		}
+
+		class BlockCategorySample {
+			+ {static} BLOCKS: List<Block>
+			+ {static} ITEMS: List<Item>
+		}
+		note bottom of BlockCategorySample {
+			方块类别的示例，用于自定义方块或物品的分类，实际上维护了一个列表
+			模组中所有的自定义物品与方块在一般情形下都应该被明确地划分到某一个 BlockCategorySample 中
+			自定义方块或物品应当在初始化时主动将自身加入到该列表，以便于通过 BlockCategorySample 类将列表转发给上层抽象
+		}
+
+		class ModBlocks {
+			+ {static} BLOCKS: List<Block>
+			+ {static} List<Block> getAllBlocks()
+		}
+		note bottom of ModBlocks {
+			自定义方块的上层抽象，用于整合所有 BlockCategorySample 中的自定义方块
+		}
+
+		class ModItems {
+			+ {static} ITEMS: List<Item>
+			+ {static} List<Item> getAllItems()
+		}
+		note bottom of ModItems {
+			自定义物品的上层抽象，用于整合所有 BlockCategorySample 中的自定义物品
+		}
+	}
+
+	namespace blocks {
+		namespace BlockSample {
+			class BlockComponentSample {
+				+ {static} FACING: PropertyDirection
+				+ {static} BlockComponentSample_AABB: AxisAlignedBB
+				+ BlockComponentSample()
+				+ void registryItemRender()
+				# BlockStateContainer createBlockState()
+				+ boolean isOpaqueCube(IBlockState state)
+				+ boolean isFullCube(IBlockState state)
+				+ AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+				+ IBlockState getStateFromMeta(int meta)
+				+ int getMetaFromState(IBlockState state)
+				+ onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+			}
+			class npucraft.blocks.BlockSample.BlockComponentSample.EnumMaterial {
+				- name: String
+				- EnumMaterial(String material)
+				+ String getName()
+			}
+			BlockComponentSample --|> minecraft.Block
+			BlockComponentSample ..|> npucraft.interface.IHasModel
+			npucraft.blocks.BlockSample.BlockComponentSample.EnumMaterial ..|> minecraft.IStringSerializable
+			npucraft.blocks.BlockSample.BlockComponentSample.EnumMaterial -[hidden]> BlockComponentSample
+			note bottom of BlockComponentSample {
+				一个自定义方块通常以组合的形式定义
+				通常通过分别定义其部件来完整表述一个异形方块，对于复现性强的场景，也会整合为模板类以简化流程
+				需要注意的反常现象是，在当前版本的模组中，通过该方法描述的自定义方块其各部件是低内聚的
+			}
+		}
+	}
+}
+
+@enduml
