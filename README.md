@@ -27,3 +27,4 @@ If you would like to modify it for secondary distribution for personal or group 
 3. Major author: [SUPER2FH](https://github.com/SUPER2FH)
 4. Collaborator: [AoXiang_Soar](https://github.com/AoXiang-Soar)
 5. Other: [Mario_RainFlower](https://github.com/MarioRainFlower)
+6. All students who have contributed to map building and modeling
