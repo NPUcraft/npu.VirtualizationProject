@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 public class ModEntry {
     public static final String MODID = "npuvproj";
     public static final String NAME = "NPU Virtualization Project";
-    public static final String VERSION = "3.0.8_beta";
+    public static final String VERSION = "3.0.10_beta";
 
     @Instance(ModEntry.MODID)
     public ModEntry instance;

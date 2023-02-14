@@ -1,0 +1,22 @@
+{
+    "variants": {
+        "facing=north": {
+            "model": "npuvproj:chair"
+        },
+        "facing=east": {
+            "model": "npuvproj:chair",
+            "y": 90,
+            "uvlock": false
+        },
+        "facing=south": {
+            "model": "npuvproj:chair",
+            "y": 180,
+            "uvlock": false
+        },
+        "facing=west": {
+            "model": "npuvproj:chair",
+            "y": 270,
+            "uvlock": false
+        }
+    }
+}
