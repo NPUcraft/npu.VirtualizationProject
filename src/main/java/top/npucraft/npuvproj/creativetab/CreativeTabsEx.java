@@ -21,6 +21,15 @@ public class CreativeTabsEx extends CreativeTabs {
 		super(label);
 	}
 
+	public static CreativeTabs findFirstOf(String label) {
+		for (int i = 0; i < CREATIVE_TAB_ARRAY.length; ++i) {
+			if (CREATIVE_TAB_ARRAY[i].getTabLabel() == label) {
+				return CREATIVE_TAB_ARRAY[i];
+			}
+		}
+		return null;
+	}
+
 	public CreativeTabsEx withIconItem(Item itemIn) {
 		iconItem_ = itemIn;
 		return this;
