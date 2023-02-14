@@ -1,16 +1,22 @@
 [
-{
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+	{
+		"modid": "npuvproj",
+		"name": "NPU Virtualization Project",
+		"description": "Modding toolkit for NPU Virtualization Project, i.e. previous NPU Reconstruction Project.",
+		"version": "${version}",
+		"mcversion": "${mcversion}",
+		"url": "https://npucraft.top/",
+		"updateUrl": "",
+		"authorList": [
+			"TeachingFeelings",
+			"MarioRainFlower",
+			"SUPER2FH",
+			"zymelaii",
+			"All students who have contributed to map building and modeling"
+		],
+		"credits": "Made by NPUCraft team",
+		"logoFile": "assets/npuvproj/logo.png",
+		"screenshots": [],
+		"dependencies": []
+	}
 ]

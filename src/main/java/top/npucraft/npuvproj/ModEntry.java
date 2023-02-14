@@ -1,4 +1,4 @@
-package com.npucraft.npuvp;
+package top.npucraft.npuvproj;
 
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
@@ -12,7 +12,7 @@ public class ModEntry
 {
     public static final String MODID = "npuvproj";
     public static final String NAME = "NPU Virtualization Project";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "3.0.0_beta";
 
     private static Logger logger;
 
