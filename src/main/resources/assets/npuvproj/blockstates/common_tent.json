@@ -1,0 +1,53 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "custom": {
+            "flip-v": true
+        },
+        "model": "npuvproj:common_tent/common_tent.obj"
+    },
+    "variants": {
+        "angle=0": {
+            "model": "npuvproj:common_tent/common_tent.obj"
+        },
+        "angle=15": {
+            "model": "npuvproj:common_tent/common_tent_y15.obj"
+        },
+        "angle=30": {
+            "model": "npuvproj:common_tent/common_tent_y30.obj"
+        },
+        "angle=45": {
+            "model": "npuvproj:common_tent/common_tent_y45.obj"
+        },
+        "angle=60": {
+            "model": "npuvproj:common_tent/common_tent_y60.obj"
+        },
+        "angle=75": {
+            "model": "npuvproj:common_tent/common_tent_y75.obj"
+        },
+        "angle=90": {
+            "model": "npuvproj:common_tent/common_tent.obj",
+            "y": 90
+        },
+        "angle=105": {
+            "model": "npuvproj:common_tent/common_tent_y15.obj",
+            "y": 90
+        },
+        "angle=120": {
+            "model": "npuvproj:common_tent/common_tent_y30.obj",
+            "y": 90
+        },
+        "angle=135": {
+            "model": "npuvproj:common_tent/common_tent_y45.obj",
+            "y": 90
+        },
+        "angle=150": {
+            "model": "npuvproj:common_tent/common_tent_y60.obj",
+            "y": 90
+        },
+        "angle=165": {
+            "model": "npuvproj:common_tent/common_tent_y75.obj",
+            "y": 90
+        }
+    }
+}

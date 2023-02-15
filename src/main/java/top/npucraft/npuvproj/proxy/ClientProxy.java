@@ -15,5 +15,7 @@ public class ClientProxy extends CommonProxy {
 				ItemBus.registerItemModel(ItemBus.getRegisteredItem(samples[i]), 0);
 			}
 		}
+
+		ItemBus.registerItemModel(ItemBus.getRegisteredItem("common_tent"), 0);
 	}
 }
