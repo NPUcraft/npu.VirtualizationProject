@@ -10,12 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import top.npucraft.npuvproj.block.CubicBlock;
 
 public class BlockTent extends CubicBlock {
@@ -27,17 +22,7 @@ public class BlockTent extends CubicBlock {
 
 	public BlockTent(Material blockMaterialIn) {
 		super(blockMaterialIn);
-	}
-
-	@Override
-	public RayTraceResult collisionTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
-		return null;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		return new AxisAlignedBB(-0.1, 0.0, -0.1, 0.1, 1.0, 0.1).offset(pos);
+		withBoundingBox(new AxisAlignedBB(-1.1, 0.0, -1.1, 1.2, 1.0, 1.2));
 	}
 
 	@Override
