@@ -22,7 +22,7 @@ public class BlockTent extends CubicBlock {
 
 	public BlockTent(Material blockMaterialIn) {
 		super(blockMaterialIn);
-		withBoundingBox(new AxisAlignedBB(-1.1, 0.0, -1.1, 1.2, 1.0, 1.2));
+		withBoundingBox(new AxisAlignedBB(1.1, 0.0, 1.1, 1.2, 1.0, 1.2));
 	}
 
 	@Override
