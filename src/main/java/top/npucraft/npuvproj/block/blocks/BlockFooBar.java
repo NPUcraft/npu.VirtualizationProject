@@ -5,6 +5,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -81,5 +82,17 @@ public class BlockFooBar extends CubicBlock implements IBlockWithDirectionProper
 					+ state.getValue(PROPERTY_FACING).name();
 			placer.sendMessage(new TextComponentString(message));
 		}
+	}
+
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		// NOTE: 这个逼对主副手都会触发一次
+		boolean activated = playerIn.getHeldItem(EnumHand.MAIN_HAND) == ItemStack.EMPTY;
+		if (hand == EnumHand.MAIN_HAND && activated) {
+			EnumFacing newFacing = EnumFacing.getHorizontal(state.getValue(PROPERTY_FACING).getHorizontalIndex() + 1);
+			worldIn.setBlockState(pos, state.withProperty(PROPERTY_FACING, newFacing));
+		}
+		return activated;
 	}
 }
