@@ -1,6 +1,5 @@
 package top.npucraft.npuvproj.block.blocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,8 +13,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import top.npucraft.npuvproj.block.CubicBlock;
+import top.npucraft.npuvproj.block.IBlockWithDirectionProperty;
 
-public class BlockFooBar extends Block {
+public class BlockFooBar extends CubicBlock implements IBlockWithDirectionProperty {
 	public static PropertyDirection PROPERTY_FACING;
 
 	static {
@@ -24,29 +25,17 @@ public class BlockFooBar extends Block {
 
 	public BlockFooBar() {
 		super(Material.ROCK);
+		withBoundingBox(new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 1.0, 0.8));
 	}
 
-	/**
-	 * @note 碰撞检测是由射线追踪算法实现的，模型情形下，采取的检测模式是射线与单一碰撞箱相交测试。
-	 */
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		AxisAlignedBB northBB = new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 1.0, 0.8);
-		switch (state.getValue(PROPERTY_FACING).getHorizontalIndex()) {
-			case 2: {
-				return northBB;
-			}
-			case 0: {
-				return new AxisAlignedBB(northBB.minX, 0.0, 1.0 - northBB.maxZ, northBB.maxX, 1.0, 1.0 - northBB.minZ);
-			}
-			case 1: {
-				return new AxisAlignedBB(northBB.minZ, 0.0, northBB.minX, northBB.maxZ, 1.0, northBB.maxX);
-			}
-			case 3: {
-				return new AxisAlignedBB(1.0 - northBB.minZ, 0.0, 1.0 - northBB.minX, 1.0 - northBB.maxZ, 1.0, 1.0 - northBB.maxX);
-			}
-		}
-		return null;
+	public PropertyDirection getDirectionProperty() {
+		return PROPERTY_FACING;
+	}
+
+	@Override
+	public AxisAlignedBB getCurrentBB(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return getRedirecredBB(bb_, state, source, pos);
 	}
 
 	@Override
@@ -74,9 +63,6 @@ public class BlockFooBar extends Block {
 		return state.getValue(PROPERTY_FACING).getHorizontalIndex();
 	}
 
-	/**
-	 * @note 放置方块动作会在 Remote 和 Non-Remote 分别响应一次
-	 */
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {

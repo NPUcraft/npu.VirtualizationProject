@@ -13,6 +13,9 @@ namespace net.minecraft {
 		class Item
 		class ItemStack
 	}
+	namespace block {
+		class Block
+	}
 }
 
 namespace top.npucraft.npuvproj {
@@ -52,10 +55,8 @@ namespace top.npucraft.npuvproj {
 			+ void onServerStopped(FMLServerStoppedEvent e)
 		}
 
-		abstract CommonProxy {
-
-		}
-		note right of CommonProxy {
+		abstract CommonProxy
+		note bottom of CommonProxy {
 			CommonProxy 并非 forge 模组必不可少的部分
 			设计 CommonProxy 的目的仅仅在于更方便地划分模组在客户端和服务端的不同行为
 			在 npuvproj 的设计中， CommonProxy 应当包含客户端和服务端共有的行为
@@ -63,17 +64,16 @@ namespace top.npucraft.npuvproj {
 			ClientProxy 独立负责处理客户端特有的行为逻辑
 			CommonProxy 将被置为抽象类以强制子类实现端的附加行为逻辑，即使其为空
 		}
-		CommonProxy .down.|> IProxy
+		CommonProxy .left.|> IProxy
+		CommonProxy ..> top.npucraft.npuvproj.utils.Config
 
-		class ServerProxy {
-
-		}
+		class ServerProxy
 		ServerProxy -right-|> CommonProxy
 
-		class ClientProxy {
-
-		}
+		class ClientProxy
 		ClientProxy -right-|> CommonProxy
+		ClientProxy ..> top.npucraft.npuvproj.utils.Config
+		ClientProxy -[hidden]> ServerProxy
 	}
 
 	class ModEntry {
@@ -90,6 +90,7 @@ namespace top.npucraft.npuvproj {
 		+ void onServerStopped(FMLServerStoppedEvent e)
 	}
 	ModEntry o--> top.npucraft.npuvproj.proxy.CommonProxy
+	ModEntry ..> top.npucraft.npuvproj.utils.Config
 
 	namespace creativetab {
 		class CreativeTabEx {
@@ -115,6 +116,7 @@ namespace top.npucraft.npuvproj {
 		CreativeTabEx -up-|> net.minecraft.creativetab.CreativeTabs
 		CreativeTabEx .up.> net.minecraft.item.Item
 		CreativeTabEx .up.> net.minecraft.item.ItemStack
+		CreativeTabEx ..> top.npucraft.npuvproj.utils.Config
 		note bottom of CreativeTabEx {
 			CreativeTabs 的配置增强版本
 			推荐 npuvproj 自定义物品的栏目都由 CreativeTabEx 定义
@@ -129,13 +131,16 @@ namespace top.npucraft.npuvproj {
 			+ ItemBuilder withCreativeTab(String name)
 			+ Item build()
 		}
+		ItemBuilder ..> top.npucraft.npuvproj.utils.Config
 
 		class ItemBus {
 			+ {static} void registerItem(Item itemIn)
 			+ {static} void registerItemBlock(Block blockIn)
 			+ {static} Item getRegisteredItem(String name)
 		}
+		ItemBus -[hidden]> ItemBuilder
 		ItemBus ..> top.npucraft.npuvproj.proxy.CommonProxy
+		ItemBus ..> top.npucraft.npuvproj.utils.Config
 	}
 
 	namespace block {
@@ -146,13 +151,57 @@ namespace top.npucraft.npuvproj {
 			+ BlockBuilder withCreativeTab(String name)
 			+ Block build()
 		}
+		BlockBuilder ..> top.npucraft.npuvproj.utils.Config
 
 		class BlockBus {
 			+ {static} void registerBlock(Block blockIn)
 			+ {static} Block getRegisteredBlock(String name)
 		}
+		BlockBus -[hidden]> BlockBuilder
 		BlockBus ..> top.npucraft.npuvproj.item.ItemBus
 		BlockBus ..> top.npucraft.npuvproj.proxy.CommonProxy
+		BlockBus ..> top.npucraft.npuvproj.utils.Config
+
+		interface IBlockCollision {
+			+ AxisAlignedBB getCurrentBB(IBlockState state, IBlockAccess source, BlockPos pos)
+			+ RayTraceResult collisionTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
+		}
+		note left of IBlockCollision {
+			IBlockCollision 统一方块碰撞模型接口
+			推荐在 npuvproj 使用其实现管理方块模型的碰撞箱
+		}
+
+		abstract BlockCollision {
+			+ BlockCollision(Material blockMaterialIn, MapColor blockMapColorIn)
+			+ BlockCollision(Material materialIn)
+			+ AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+			+ RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
+		}
+		BlockCollision --|> net.minecraft.block.Block
+		BlockCollision .up.|> IBlockCollision
+
+		abstract CubicBlock {
+			# bb_: AxisAlignedBB
+			+ CubicBlock(Material blockMaterialIn, MapColor blockMapColorIn)
+			+ CubicBlock(Material materialIn)
+			+ CubicBlock withBoundingBox(AxisAlignedBB bb)
+			+ AxisAlignedBB getCurrentBB(IBlockState state, IBlockAccess source, BlockPos pos)
+			+ RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
+		}
+		CubicBlock -up-|> BlockCollision
+
+		abstract HeterotypeBlock {
+			+ HeterotypeBlock(Material blockMaterialIn, MapColor blockMapColorIn)
+			+ HeterotypeBlock(Material materialIn)
+			+ RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
+		}
+		HeterotypeBlock -up-|> BlockCollision
+
+		interface IBlockWithDirectionProperty {
+			+ PropertyDirection getDirectionProperty()
+			+ AxisAlignedBB getRedirecredBB(AxisAlignedBB bb, IBlockState state, IBlockAccess source, BlockPos pos)
+		}
+		IBlockWithDirectionProperty -[hidden]> BlockCollision
 	}
 }
 
