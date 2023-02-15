@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 ext.modid = 'npuvproj'
-version = '3.0.15_beta'
+version = '3.0.16_beta'
 group = 'top.npucraft.' + modid
 archivesBaseName = modid
 

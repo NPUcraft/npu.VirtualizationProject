@@ -136,6 +136,9 @@ namespace top.npucraft.npuvproj {
 		class ItemBus {
 			+ {static} void registerItem(Item itemIn)
 			+ {static} void registerItemBlock(Block blockIn)
+			+ {static} void registerItemModel(Item itemIn, int metaIn)
+			+ {static} void registerItemModel(Item itemIn, int metaIn, String locationIn)
+			# {static} void registerItemModel(Item itemIn, int metaIn, ModelResourceLocation locationIn)
 			+ {static} Item getRegisteredItem(String name)
 		}
 		ItemBus -[hidden]> ItemBuilder
