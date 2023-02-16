@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 ext.modid = 'npuvproj'
-version = '3.0.19_beta'
+version = '3.0.20_beta'
 group = 'top.npucraft.' + modid
 archivesBaseName = modid
 
@@ -37,8 +37,16 @@ dependencies {
 }
 
 processResources {
-    filesMatching('resources/mcmod.info') {
-        expand project.properties
+    inputs.property "version", project.version
+    inputs.property "mcversion", minecraft.mappings
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': minecraft.mappings
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }
 
@@ -48,7 +56,7 @@ jar {
             "Specification-Title": modid,
             "Specification-Vendor": modid + "sareus",
             "Specification-Version": version,
-            "Implementation-Title": project.name,
+            "Implementation-Title": name,
             "Implementation-Version": version,
             "Implementation-Vendor" : modid + "sareus",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")

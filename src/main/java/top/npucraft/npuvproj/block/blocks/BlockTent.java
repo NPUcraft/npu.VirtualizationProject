@@ -22,6 +22,7 @@ public class BlockTent extends CubicBlock {
 
 	public BlockTent(Material blockMaterialIn) {
 		super(blockMaterialIn);
+		// FIXME: 重写 AABB 后自带的 RayTracing 检测有问题，总是检测不到，记得重写！
 		withBoundingBox(new AxisAlignedBB(1.1, 0.0, 1.1, 1.2, 1.0, 1.2));
 	}
 
