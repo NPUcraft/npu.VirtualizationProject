@@ -11,5 +11,13 @@ import net.minecraft.world.World;
 public interface IBlockCollision {
 	public AxisAlignedBB getCurrentBB(IBlockState state, IBlockAccess source, BlockPos pos);
 
-	public RayTraceResult collisionTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end);
+	public default AxisAlignedBB getCollisionBB(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return getCurrentBB(state, source, pos);
+	}
+
+	public default AxisAlignedBB getSelectedBB(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return getCurrentBB(state, source, pos);
+	}
+
+	public RayTraceResult rayTraceTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end);
 }
