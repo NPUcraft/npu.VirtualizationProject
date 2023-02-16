@@ -18,7 +18,7 @@ public abstract class HeterotypeBlock extends BlockCollision {
 	}
 
 	@Override
-	public RayTraceResult collisionTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start,
+	public RayTraceResult rayTraceTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start,
 			Vec3d end) {
 		return rayTrace(pos, start, end, getCurrentBB(blockState, worldIn, pos));
 	}

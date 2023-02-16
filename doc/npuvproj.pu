@@ -167,17 +167,21 @@ namespace top.npucraft.npuvproj {
 
 		interface IBlockCollision {
 			+ AxisAlignedBB getCurrentBB(IBlockState state, IBlockAccess source, BlockPos pos)
-			+ RayTraceResult collisionTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
+			+ AxisAlignedBB getCollisionBB(IBlockState state, IBlockAccess source, BlockPos pos)
+			+ AxisAlignedBB getSelectedBB(IBlockState state, IBlockAccess source, BlockPos pos)
+			+ RayTraceResult rayTraceTest(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
 		}
 		note left of IBlockCollision {
 			IBlockCollision 统一方块碰撞模型接口
-			推荐在 npuvproj 使用其实现管理方块模型的碰撞箱
+			推荐在 npuvproj 实现该接口以管理方块模型的射线测试、碰撞箱、选中状态包装盒
 		}
 
 		abstract BlockCollision {
 			+ BlockCollision(Material blockMaterialIn, MapColor blockMapColorIn)
 			+ BlockCollision(Material materialIn)
 			+ AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+			+ AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+			+ AxisAlignedBB getSelectedBoundingBox(IBlockState state, World source, BlockPos pos)
 			+ RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
 		}
 		BlockCollision --|> net.minecraft.block.Block

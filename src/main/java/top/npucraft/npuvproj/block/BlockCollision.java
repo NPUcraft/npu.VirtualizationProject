@@ -26,8 +26,18 @@ public abstract class BlockCollision extends Block implements IBlockCollision {
 	}
 
 	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return getCollisionBB(state, source, pos);
+	}
+
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World source, BlockPos pos) {
+		return getSelectedBB(state, source, pos);
+	}
+
+	@Override
 	public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start,
 			Vec3d end) {
-		return collisionTest(blockState, worldIn, pos, start, end);
+		return rayTraceTest(blockState, worldIn, pos, start, end);
 	}
 }
