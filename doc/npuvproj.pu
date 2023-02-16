@@ -18,7 +18,7 @@ namespace net.minecraft {
 	}
 }
 
-namespace top.npucraft.npuvproj {
+namespace com.npucraft.npuvproj {
 	namespace utils {
 		class Config {
 			+ {static} ModId: String
@@ -65,14 +65,14 @@ namespace top.npucraft.npuvproj {
 			CommonProxy 将被置为抽象类以强制子类实现端的附加行为逻辑，即使其为空
 		}
 		CommonProxy .left.|> IProxy
-		CommonProxy ..> top.npucraft.npuvproj.utils.Config
+		CommonProxy ..> com.npucraft.npuvproj.utils.Config
 
 		class ServerProxy
 		ServerProxy -right-|> CommonProxy
 
 		class ClientProxy
 		ClientProxy -right-|> CommonProxy
-		ClientProxy ..> top.npucraft.npuvproj.utils.Config
+		ClientProxy ..> com.npucraft.npuvproj.utils.Config
 		ClientProxy -[hidden]> ServerProxy
 	}
 
@@ -89,8 +89,8 @@ namespace top.npucraft.npuvproj {
 		+ void onServerStopping(FMLServerStoppingEvent e)
 		+ void onServerStopped(FMLServerStoppedEvent e)
 	}
-	ModEntry o--> top.npucraft.npuvproj.proxy.CommonProxy
-	ModEntry ..> top.npucraft.npuvproj.utils.Config
+	ModEntry o--> com.npucraft.npuvproj.proxy.CommonProxy
+	ModEntry ..> com.npucraft.npuvproj.utils.Config
 
 	namespace creativetab {
 		class CreativeTabEx {
@@ -116,7 +116,7 @@ namespace top.npucraft.npuvproj {
 		CreativeTabEx -up-|> net.minecraft.creativetab.CreativeTabs
 		CreativeTabEx .up.> net.minecraft.item.Item
 		CreativeTabEx .up.> net.minecraft.item.ItemStack
-		CreativeTabEx ..> top.npucraft.npuvproj.utils.Config
+		CreativeTabEx ..> com.npucraft.npuvproj.utils.Config
 		note bottom of CreativeTabEx {
 			CreativeTabs 的配置增强版本
 			推荐 npuvproj 自定义物品的栏目都由 CreativeTabEx 定义
@@ -131,7 +131,7 @@ namespace top.npucraft.npuvproj {
 			+ ItemBuilder withCreativeTab(String name)
 			+ Item build()
 		}
-		ItemBuilder ..> top.npucraft.npuvproj.utils.Config
+		ItemBuilder ..> com.npucraft.npuvproj.utils.Config
 
 		class ItemBus {
 			+ {static} void registerItem(Item itemIn)
@@ -142,8 +142,8 @@ namespace top.npucraft.npuvproj {
 			+ {static} Item getRegisteredItem(String name)
 		}
 		ItemBus -[hidden]> ItemBuilder
-		ItemBus ..> top.npucraft.npuvproj.proxy.CommonProxy
-		ItemBus ..> top.npucraft.npuvproj.utils.Config
+		ItemBus ..> com.npucraft.npuvproj.proxy.CommonProxy
+		ItemBus ..> com.npucraft.npuvproj.utils.Config
 	}
 
 	namespace block {
@@ -154,16 +154,16 @@ namespace top.npucraft.npuvproj {
 			+ BlockBuilder withCreativeTab(String name)
 			+ Block build()
 		}
-		BlockBuilder ..> top.npucraft.npuvproj.utils.Config
+		BlockBuilder ..> com.npucraft.npuvproj.utils.Config
 
 		class BlockBus {
 			+ {static} void registerBlock(Block blockIn)
 			+ {static} Block getRegisteredBlock(String name)
 		}
 		BlockBus -[hidden]> BlockBuilder
-		BlockBus ..> top.npucraft.npuvproj.item.ItemBus
-		BlockBus ..> top.npucraft.npuvproj.proxy.CommonProxy
-		BlockBus ..> top.npucraft.npuvproj.utils.Config
+		BlockBus ..> com.npucraft.npuvproj.item.ItemBus
+		BlockBus ..> com.npucraft.npuvproj.proxy.CommonProxy
+		BlockBus ..> com.npucraft.npuvproj.utils.Config
 
 		interface IBlockCollision {
 			+ AxisAlignedBB getCurrentBB(IBlockState state, IBlockAccess source, BlockPos pos)

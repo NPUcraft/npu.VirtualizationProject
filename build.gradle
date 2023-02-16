@@ -11,8 +11,8 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 ext.modid = 'npuvproj'
-version = '3.0.20_beta'
-group = 'top.npucraft.' + modid
+version = '3.0.21_beta'
+group = 'com.npucraft.' + modid
 archivesBaseName = modid
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'

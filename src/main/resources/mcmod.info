@@ -5,7 +5,7 @@
 		"description": "Modding toolkit for NPU Virtualization Project, i.e. previous NPU Reconstruction Project.",
 		"version": "${version}",
 		"mcversion": "${mcversion}",
-		"url": "https://npucraft.top/",
+		"url": "https://www.npucraft.com/",
 		"updateUrl": "",
 		"authorList": [
 			"TeachingFeelings",
