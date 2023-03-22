@@ -38,7 +38,7 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
-    compile 'software.bernie.geckolib:forge-1.12.2-geckolib:3.0.21'
+    implementation 'software.bernie.geckolib:forge-1.12.2-geckolib:3.0.21'
 }
 
 processResources {
