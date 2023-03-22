@@ -6,7 +6,7 @@ Modding toolkit for NPU Virtualization Project, i.e. previous NPU Reconstruction
 
 ## Requirement
 
-- Gradle 3.0-4.9
+- Gradle 4.9
 - JDK 8
 - Minecraft forge MDK 1.12.2-14.23.5.2859
 
